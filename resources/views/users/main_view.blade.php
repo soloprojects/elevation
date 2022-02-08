@@ -54,7 +54,7 @@
                                     </div>
                                 </div>
                             </div>
-                           
+                            <input type="hidden" class="form-control" value="{{\App\Helpers\Utility::admin}}" name="role_id" placeholder="Name" required>
 
                      </div>
 

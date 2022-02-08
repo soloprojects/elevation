@@ -34,7 +34,7 @@ class UsersController extends Controller
         //
         //$req = new Request();
         
-        $mainData =  User::paginateAllData();
+        $mainData =  User::specialColumns('role_id',Utility::admin);
 
 
         if ($request->ajax()) {

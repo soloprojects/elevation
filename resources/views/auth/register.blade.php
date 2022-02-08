@@ -61,6 +61,8 @@
                             </div>
                         </div>
 
+                        <input id="" type="hidden" value="{{\App\Helpers\Utility::member}}" class="form-control" name="role_id">
+
                         <div class="form-group row mb-0">
                             <div class="col-md-6 offset-md-4">
                                 <button type="submit" class="btn btn-primary">

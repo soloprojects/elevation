@@ -82,6 +82,13 @@ class User extends Authenticatable
 
     }
 
+    public static function specialColumns($column, $post)
+  {
+      //Utility::specialColumns(self::table(),$column, $post);
+      return static::where($column, '=',$post)->orderBy('id','DESC')->paginate('15');
+
+  }
+
     public static function defaultUpdate($column, $postId, $arrayDataUpdate=[])
     {
 

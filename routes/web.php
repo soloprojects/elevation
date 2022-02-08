@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
+use Illuminate\Support\Facades\Auth;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -28,18 +28,20 @@ Route::post('/edit_user_form', [App\Http\Controllers\UsersController::class, 'ed
 Route::post('/edit_user', [App\Http\Controllers\UsersController::class, 'edit'])->name('edit_user');
 Route::post('/delete_user', [App\Http\Controllers\UsersController::class, 'destroy'])->name('delete_user');
 
-// -------------Company MODULE-----------
-Route::any('/company', [App\Http\Controllers\CompaniesController::class, 'index'])->name('company')->middleware('auth.admin');
-Route::any('/company_detail', [App\Http\Controllers\CompaniesController::class, 'companyDetail'])->name('company_detail');
-Route::post('/create_company', [App\Http\Controllers\CompaniesController::class, 'create'])->name('company_user')->middleware('auth.admin');
-Route::post('/edit_company_form', [App\Http\Controllers\CompaniesController::class, 'editForm'])->name('edit_company_form');
-Route::post('/edit_company', [App\Http\Controllers\CompaniesController::class, 'edit'])->name('edit_company');
-Route::post('/delete_company', [App\Http\Controllers\CompaniesController::class, 'destroy'])->name('delete_company')->middleware('auth.admin');
+// -------------members MODULE-----------
+Route::any('/members', [App\Http\Controllers\MembersController::class, 'index'])->name('members')->middleware('auth.admin');
+Route::any('/members_detail', [App\Http\Controllers\MembersController::class, 'membersDetail'])->name('members_detail');
+Route::any('/create_members', [App\Http\Controllers\MembersController::class, 'create'])->name('members_user')->middleware('auth.admin');
+Route::post('/edit_members_form', [App\Http\Controllers\MembersController::class, 'editForm'])->name('edit_members_form');
+Route::post('/edit_members', [App\Http\Controllers\MembersController::class, 'edit'])->name('edit_members');
+Route::post('/delete_members', [App\Http\Controllers\MembersController::class, 'destroy'])->name('delete_members')->middleware('auth.admin');
 
-// -------------Employee MODULE-----------
-Route::any('/employee', [App\Http\Controllers\EmployeesController::class, 'index'])->name('employee')->middleware('auth');
-Route::post('/create_employee', [App\Http\Controllers\EmployeesController::class, 'create'])->name('create_employee');
-Route::post('/edit_employee_form', [App\Http\Controllers\EmployeesController::class, 'editForm'])->name('edit_employee_form');
-Route::post('/edit_employee', [App\Http\Controllers\EmployeesController::class, 'edit'])->name('edit_employee');
-Route::post('/delete_employee', [App\Http\Controllers\EmployeesController::class, 'destroy'])->name('delete_employee');
-
+// -------------EVENTS MODULE-----------
+Route::any('/events', [App\Http\Controllers\EventsController::class, 'index'])->name('events')->middleware('auth');
+Route::any('/my_events_calendar', 'EventsController@myCalendar')->name('my_events_calendar')->middleware('auth');
+Route::any('/general_events_calendar', 'EventsController@generalCalendar')->name('general_events_calendar')->middleware('auth');
+Route::post('/create_events', [App\Http\Controllers\EventsController::class, 'create'])->name('create_events');
+Route::post('/edit_events_form', [App\Http\Controllers\EventsController::class, 'editForm'])->name('edit_events_form');
+Route::post('/edit_events', [App\Http\Controllers\EventsController::class, 'edit'])->name('edit_events');
+Route::post('/delete_events', [App\Http\Controllers\EventsController::class, 'destroy'])->name('delete_events');
+Route::any('/change_calendar', 'EventsController@changeCalendar')->name('change_calendar')->middleware('auth');

@@ -10,7 +10,7 @@
     <meta name="author" content="">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>GLADE</title>
+    <title>ELEVATION</title>
 
     <!-- Styles -->
     <link href="{{ asset('vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet">
@@ -77,29 +77,19 @@
             @if(Auth::user()->role_id == \App\Helpers\Utility::superAdmin || Auth::user()->role_id == \App\Helpers\Utility::admin)
             <!-- Nav Item - Tables -->
             <li class="nav-item active">
-                <a class="nav-link" href="{{url('company')}}">
+                <a class="nav-link" href="{{url('members')}}">
                     <i class="fas fa-fw fa-table"></i>
-                    <span>Companies</span></a>
+                    <span>Members</span></a>
             </li>
             @endif
 
-            @if(Auth::user()->role_id ==  \App\Helpers\Utility::superAdmin || Auth::user()->role_id == \App\Helpers\Utility::admin || Auth::user()->role_id == \App\Helpers\Utility::company)
+           
             <!-- Nav Item - Tables -->
             <li class="nav-item active">
-                <a class="nav-link" href="{{url('employee')}}">
+                <a class="nav-link" href="{{url('events')}}">
                     <i class="fas fa-fw fa-table"></i>
-                    <span>Employees</span></a>
+                    <span>Events</span></a>
             </li>
-            @endif
-
-            @if( Auth::user()->role_id == \App\Helpers\Utility::employee)
-            <!-- Nav Item - Tables -->
-            <li class="nav-item active">
-                <a class="nav-link" href="{{url('company_detail')}}">
-                    <i class="fas fa-fw fa-table"></i>
-                    <span>company information</span></a>
-            </li>
-            @endif
 
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">

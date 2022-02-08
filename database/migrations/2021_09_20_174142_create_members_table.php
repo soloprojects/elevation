@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddColumnsToCompaniesTable extends Migration
+class CreateMembersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,13 @@ class AddColumnsToCompaniesTable extends Migration
      */
     public function up()
     {
-        Schema::table('companies', function (Blueprint $table) {
-            //
+        Schema::create('members', function (Blueprint $table) {
+            $table->id();
+            $table->integer('user_id');
+            $table->string('name');
             $table->integer('created_by')->nullable();
             $table->integer('updated_by')->nullable();
+            $table->timestamps();
         });
     }
 
@@ -27,10 +30,6 @@ class AddColumnsToCompaniesTable extends Migration
      */
     public function down()
     {
-        Schema::table('companies', function (Blueprint $table) {
-            //
-            $table->dropColumn('created_by');
-            $table->dropColumn('updated_by');
-        });
+        Schema::dropIfExists('companies');
     }
 }

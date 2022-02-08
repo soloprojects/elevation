@@ -7,7 +7,7 @@
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title" id="defaultModalLabel">Create Company</h4>
+                    <h4 class="modal-title" id="defaultModalLabel">Create members</h4>
                 </div>
                 <div class="modal-body" style="height:400px; overflow:scroll;">
 
@@ -52,22 +52,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-sm-4">
-                                    <b>Website</b>
-                                    <div class="form-group">
-                                        <div class="form-line">
-                                            <input type="text" class="form-control" name="website" placeholder="website" >
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-sm-4">
-                                    <b>Logo</b>
-                                    <div class="form-group">
-                                        <div class="form-line">
-                                            <input type="file" class="form-control" name="logo" placeholder="logo" >
-                                        </div>
-                                    </div>
-                                </div>
+                                
 
                             </div>
 
@@ -77,8 +62,8 @@
 
                 </div>
                 <div class="modal-footer">
-                    <button onclick="submitMediaForm('createModal','createMainForm','<?php echo url('create_company'); ?>','reload_data',
-                            '<?php echo url('company'); ?>','<?php echo csrf_token(); ?>')" type="button" class="btn btn-link waves-effect">
+                    <button onclick="submitMediaForm('createModal','createMainForm','<?php echo url('create_members'); ?>','reload_data',
+                            '<?php echo url('members'); ?>','<?php echo csrf_token(); ?>')" type="button" class="btn btn-link waves-effect">
                         SAVE
                     </button>
                     <button type="button" class="btn btn-link waves-effect" data-dismiss="modal">CLOSE</button>
@@ -98,8 +83,8 @@
 
                 </div>
                 <div class="modal-footer">
-                    <button type="button"  onclick="submitMediaForm('editModal','editMainForm','<?php echo url('edit_company'); ?>','reload_data',
-                            '<?php echo url('company'); ?>','<?php echo csrf_token(); ?>')"
+                    <button type="button"  onclick="submitMediaForm('editModal','editMainForm','<?php echo url('edit_members'); ?>','reload_data',
+                            '<?php echo url('members'); ?>','<?php echo csrf_token(); ?>')"
                             class="btn btn-link waves-effect">
                         SAVE CHANGES
                     </button>
@@ -116,15 +101,15 @@
             <div class="card">
                 <div class="header">
                     <h2>
-                        Companies
+                        Members
                     </h2>
                     <ul class="header-dropdown m-r--5">
                         <li>
                             <button class="btn btn-success" data-toggle="modal" data-target="#createModal"><i class="fa fa-plus"></i>Add</button>
                         </li>
                         <li>
-                            <button type="button" onclick="deleteItems('kid_checkbox','reload_data','<?php echo url('company'); ?>',
-                                    '<?php echo url('delete_company'); ?>','<?php echo csrf_token(); ?>');" class="btn btn-danger">
+                            <button type="button" onclick="deleteItems('kid_checkbox','reload_data','<?php echo url('members'); ?>',
+                                    '<?php echo url('delete_members'); ?>','<?php echo csrf_token(); ?>');" class="btn btn-danger">
                                 <i class="fa fa-trash-o"></i>Delete
                             </button>
                         </li>
@@ -155,9 +140,6 @@
                             <th>Manage</th>
                             <th>Name</th>
                             <th>Email</th>
-                            <th>Logo</th>
-                            <th>Created By</th>
-                            <th>Updated By</th>
                             <th>Created at</th>
                             <th>Updated at</th>
                         </tr>
@@ -171,7 +153,7 @@
 
                             </td>
                             <td>
-                                <a style="cursor: pointer;" onclick="editForm('{{$data->id}}','edit_content','<?php echo url('edit_company_form') ?>','<?php echo csrf_token(); ?>')"><i class="fa fa-pencil-square-o fa-2x"></i>Edit</a>
+                                <a style="cursor: pointer;" onclick="editForm('{{$data->id}}','edit_content','<?php echo url('edit_members_form') ?>','<?php echo csrf_token(); ?>')"><i class="fa fa-pencil-square-o fa-2x"></i>Edit</a>
                             </td>
                             <!-- ENTER YOUR DYNAMIC COLUMNS HERE -->
                             <td>                              
@@ -180,10 +162,7 @@
                                 </a>
                             </td>
                             
-                            <td>{{$data->userData->email}}</td>                          
-                            <td><img src="{{ asset('img/'.$data->logo) }}" width="200" height="200"  alt="logo" /></td>
-                            <td>{{$data->userCreateData->name}}</td>
-                            <td>{{$data->userUpdateData->name}}</td> 
+                            <td>{{$data->email}}</td>    
                             <td>{{$data->created_at}}</td>
                             <td>{{$data->updated_at}}</td> 
                             <!--END ENTER YOUR DYNAMIC COLUMNS HERE -->
