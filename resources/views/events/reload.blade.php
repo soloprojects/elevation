@@ -15,7 +15,9 @@
         <th>Event Type</th>
         <th>Created at</th>
         <th>Updated at</th>
+        <th>Attend</th>
         <th>Manage</th>
+        <th>View</th>
     </tr>
     </thead>
     <tbody>
@@ -35,7 +37,7 @@
             <td>{{$data->start_event}}</td>
             <td>{{$data->end_event}}</td>
             <td>
-                {{$data->user->firstname}} {{$data->user->lastname}}
+                {{$data->user->name}}
             </td>
             <td>
                 {{\App\Helpers\Utility::eventType($data->event_type)}}
@@ -44,9 +46,16 @@
             <td>{{$data->updated_at}}</td>
             <!--END ENTER YOUR DYNAMIC COLUMNS HERE -->
             <td>
+                <a style="cursor: pointer;" onclick="fetchHtml('{{$data->id}}','attend_content','attend_modal','<?php echo url('attend_events_form') ?>','<?php echo csrf_token(); ?>')"><i class="fa fa-pencil-square-o fa-2x"></i>Attend</a>
+
+            </td>
+            @if(Auth::user()->role_id ==  \App\Helpers\Utility::superAdmin || Auth::user()->role_id == \App\Helpers\Utility::admin)
+            <td>
                 <a style="cursor: pointer;" onclick="editForm('{{$data->id}}','edit_content','<?php echo url('edit_events_form') ?>','<?php echo csrf_token(); ?>')"><i class="fa fa-pencil-square-o fa-2x"></i>Edit</a>
 
             </td>
+            <td><a href="{{route('all_attendees', ['id' => $data->id])}}">View Attendees</a></td>
+            @endif
         </tr>
     @endforeach
     </tbody>

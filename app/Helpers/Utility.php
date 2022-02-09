@@ -2,13 +2,17 @@
 
 namespace App\Helpers;
 
-
+use App\Models\EventAttendees;
 class Utility{
 
    const superAdmin = 1, admin = 2, member = 3;
    const GENERAL_SCHEDULE = 2, MY_SCHEDULE = 1;    //FOR EVENT MODULE
    const STATUS_INACTIVE = 2, STATUS_ACTIVE = 1, STATUS_DELETED = 0;
    const EVENT_TYPE = [1 => 'My Schedule', 2 => 'General Schedule'];   //FOR EVENT MODULE
+
+   public static function EventData(){
+       return EventAttendees::getAllData();
+   }
 
    public static function IMG_URL($image = ''){
       return public_path() . '/images/'.$image;

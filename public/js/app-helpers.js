@@ -1897,7 +1897,7 @@
 
             }
         }
-        $('#'+displayId).html('LOADING DATA');
+        //$('#'+displayId).html('LOADING DATA');
 
     }
 

@@ -44,4 +44,7 @@ Route::post('/create_events', [App\Http\Controllers\EventsController::class, 'cr
 Route::post('/edit_events_form', [App\Http\Controllers\EventsController::class, 'editForm'])->name('edit_events_form');
 Route::post('/edit_events', [App\Http\Controllers\EventsController::class, 'edit'])->name('edit_events');
 Route::post('/delete_events', [App\Http\Controllers\EventsController::class, 'destroy'])->name('delete_events');
-Route::any('/change_calendar', 'EventsController@changeCalendar')->name('change_calendar')->middleware('auth');
+Route::any('/attend_events_form', [App\Http\Controllers\EventsController::class, 'attendEventsForm'])->name('attend_events_form')->middleware('auth');
+Route::post('/attend_events', [App\Http\Controllers\EventsController::class, 'attendEvents'])->name('attend_events');
+Route::any('/all_attendees/{id}', [App\Http\Controllers\EventsController::class, 'allAttendees'])->name('all_attendees');
+

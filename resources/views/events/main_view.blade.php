@@ -138,6 +138,29 @@
         </div>
     </div>
 
+    <!-- Default Size -->
+    <div class="modal fade" id="attend_modal" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-sm" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="defaultModalLabel">Attend Event</h4>
+                </div>
+                <div class="modal-body" id="attend_content" >
+                    
+                </div>
+                <div class="modal-footer">
+
+                    <button type="button" class="btn btn-link waves-effect" data-dismiss="modal">Decline</button>
+                    <button type="button"  onclick="submitMediaForm('attend_modal','attendMainForm','<?php echo url('attend_events'); ?>','reload_data',
+                        '<?php echo url('events'); ?>','<?php echo csrf_token(); ?>')"
+                        class="btn btn-info waves-effect">
+                    Attend this event
+                </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
 
     <!-- Bordered Table -->
     <div class="row clearfix">
@@ -187,7 +210,9 @@
                             <th>Event Type</th>
                             <th>Created at</th>
                             <th>Updated at</th>
+                            <th>Attend</th>
                             <th>Manage</th>
+                            <th>View</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -207,7 +232,7 @@
                             <td>{{$data->start_event}}</td>
                             <td>{{$data->end_event}}</td>
                             <td>
-                                    {{$data->user->firstname}} {{$data->user->lastname}}
+                                    {{$data->user->name}}
                             </td>
                             <td>
                                     {{\App\Helpers\Utility::eventType($data->event_type)}}
@@ -216,9 +241,16 @@
                             <td>{{$data->updated_at}}</td>
                             <!--END ENTER YOUR DYNAMIC COLUMNS HERE -->
                             <td>
+                                <a style="cursor: pointer;" onclick="fetchHtml('{{$data->id}}','attend_content','attend_modal','<?php echo url('attend_events_form') ?>','<?php echo csrf_token(); ?>')"><i class="fa fa-pencil-square-o fa-2x"></i>Attend</a>
+
+                            </td>
+                            @if(Auth::user()->role_id ==  \App\Helpers\Utility::superAdmin || Auth::user()->role_id == \App\Helpers\Utility::admin)
+                            <td>
                                 <a style="cursor: pointer;" onclick="editForm('{{$data->id}}','edit_content','<?php echo url('edit_events_form') ?>','<?php echo csrf_token(); ?>')"><i class="fa fa-pencil-square-o fa-2x"></i>Edit</a>
 
                             </td>
+                            <td><a href="{{route('all_attendees', ['id' => $data->id])}}">View Attendees</a></td>
+                            @endif
                         </tr>
                         @endforeach
                         </tbody>
@@ -247,58 +279,7 @@
 
     }
 
-    //SUBMIT FORM WITH A FILE
-    function submitMediaFormRequest(formModal,formId,submitUrl,reload_id,reloadUrl,token,editorId){
-        var form_get = $('#'+formId);
-        var form = document.forms.namedItem(formId);
-        var ckInput = CKEDITOR.instances[editorId].getData();
-
-        var postVars = new FormData(form);
-        postVars.append('token',token);
-        postVars.append('detail',ckInput);
-
-        $('#loading_modal').modal('show');
-        $('#'+formModal).modal('hide');
-        /*$('#'+formModal).on("hidden.bs.modal", function () {
-         $('#edit_content').html('');
-         });*/
-        sendRequestMediaForm(submitUrl,token,postVars)
-        ajax.onreadystatechange = function(){
-            if(ajax.readyState == 4 && ajax.status == 200) {
-                $('#loading_modal').modal('hide');
-                var rollback = JSON.parse(ajax.responseText);
-                var message2 = rollback.message2;
-                if(message2 == 'fail'){
-
-                    //OBTAIN ALL ERRORS FROM PHP WITH LOOP
-                    var serverError = phpValidationError(rollback.message);
-
-                    var messageError = swalFormError(serverError);
-                    swal("Error",messageError, "error");
-
-                }else if(message2 == 'saved'){
-
-                    var successMessage = swalSuccess('Data saved successfully');
-                    swal("Success!", successMessage, "success");
-                    //location.reload();
-
-                }else{
-
-                    //alert(message2);
-                    console.log(message2)
-                    var infoMessage = swalWarningError(message2);
-                    swal("Warning!", infoMessage, "warning");
-
-                }
-
-                //END OF IF CONDITION FOR OUTPUTING AJAX RESULTS
-                reloadContent(reload_id,reloadUrl);
-            }
-        }
-
-    }
-
-
+   
     /*==================== PAGINATION =========================*/
 
     $(window).on('hashchange',function(){

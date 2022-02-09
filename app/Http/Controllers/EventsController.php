@@ -4,7 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Helpers\Notify;
 use App\Models\Events;
+use App\Models\EventAttendees;
 use App\Helpers\Utility;
+use App\Mail\GeneralMail;
+use App\Models\User as ModelsUser;
 use App\User;
 use Auth;
 use View;
@@ -16,6 +19,7 @@ use Intervention\Image\Facades\Image;
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Routing\Redirector;
+use Illuminate\Support\Facades\Mail;
 
 class EventsController extends Controller
 {
@@ -38,6 +42,17 @@ class EventsController extends Controller
         }
 
     }
+
+    public function allAttendees(Request $request, $id)
+    {
+        //
+        //$req = new Request();
+        $mainData = EventAttendees::paginateData('event_id',$id);
+        
+            return view::make('events.all_attendees')->with('mainData',$mainData);       
+
+    }
+
 
     /**
      * Show the form for creating a new resource.
@@ -102,6 +117,43 @@ class EventsController extends Controller
         $request = Events::firstRow('id',$request->input('dataId'));
         return view::make('events.edit_form')->with('edit',$request);
 
+    }
+
+    public function attendEventsForm(Request $request)
+    {
+        //
+        $request = Events::firstRow('id',$request->input('dataId'));
+        return view::make('events.attend_form')->with('edit',$request);
+
+    }
+
+    public function attendEvents(Request $request)
+    {
+        //        
+            $dbDATA = [
+                'event_id' => $request->input('edit_id'),
+                'user_id' => $request->input('user_id'),
+            ];
+                     
+                EventAttendees::create($dbDATA);
+
+                $details = [
+
+                    'title' => 'Mail from Elevation',
+            
+                    'message' => 'You just subscribed to an event in elevation church'
+            
+                ];
+            $userDetail = ModelsUser::firstRow('id',$request->input('user_id'));
+               
+            
+                Mail::to($userDetail->email)->send(new GeneralMail($details));
+             
+                return response()->json([
+                    'message' => 'good',
+                    'message2' => 'saved'
+                ]);
+         
     }
 
     /**
